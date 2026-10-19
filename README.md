@@ -25,3 +25,26 @@ Important:
 - Change the example ID in PUT/DELETE to an ID that exists in your table.
 - The starter sample row may have ID 1 if the table was newly created.
 - The API uses parameterized SQL queries for values supplied by requests.
+
+API testing screenshots
+-----------------------
+
+### GET all biodata
+
+![GET all biodata](screenshots/get-all.png)
+
+### Create biodata
+
+![Create biodata](screenshots/create-biodata.png)
+
+### Update biodata
+
+![Update biodata](screenshots/update-biodata.png)
+
+### Delete biodata
+
+![Delete biodata](screenshots/delete-biodata.png)
+
+### Request body example
+
+![Request body example](screenshots/request-body.png)
