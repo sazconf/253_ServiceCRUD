@@ -27,6 +27,25 @@ app.get('/', async (req, res) => {
   }
 });
 
+// POST: http://localhost:3000/biodata
+app.post('/biodata', async (req, res) => {
+  const { nama, nim, kelas } = req.body;
+  if (!nama || !nim || !kelas) {
+    return res.status(400).json({ message: 'nama, nim, and kelas are required' });
+  }
+
+  try {
+    const result = await pool.query(
+      'INSERT INTO biodata (nama, nim, kelas) VALUES ($1, $2, $3) RETURNING *',
+      [nama, nim, kelas]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
