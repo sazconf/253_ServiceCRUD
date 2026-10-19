@@ -9,7 +9,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'mahasiswa',
-  password: process.env.PG_PASSWORD || '1234',
+  password: process.env.PG_PASSWORD,
   port: 5432,
 });
 
@@ -50,6 +50,9 @@ app.post('/biodata', async (req, res) => {
 app.put('/biodata/:id', async (req, res) => {
   const { id } = req.params;
   const { nama, nim, kelas } = req.body;
+  if (!nama || !nim || !kelas) {
+    return res.status(400).json({ message: 'nama, nim, and kelas are required' });
+  }
 
   try {
     const result = await pool.query(
