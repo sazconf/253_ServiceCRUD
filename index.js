@@ -66,6 +66,25 @@ app.put('/biodata/:id', async (req, res) => {
   }
 });
 
+// DELETE: http://localhost:3000/biodata/:id
+app.delete('/biodata/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM biodata WHERE id = $1 RETURNING *',
+      [id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Data tidak ditemukan' });
+    }
+    res.json({ message: 'Data berhasil dihapus', data: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
