@@ -46,6 +46,26 @@ app.post('/biodata', async (req, res) => {
   }
 });
 
+// PUT: http://localhost:3000/biodata/:id
+app.put('/biodata/:id', async (req, res) => {
+  const { id } = req.params;
+  const { nama, nim, kelas } = req.body;
+
+  try {
+    const result = await pool.query(
+      'UPDATE biodata SET nama = $1, nim = $2, kelas = $3 WHERE id = $4 RETURNING *',
+      [nama, nim, kelas, id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Data tidak ditemukan' });
+    }
+    res.json({ message: 'Data berhasil diupdate', data: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
